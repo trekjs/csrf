@@ -32,6 +32,7 @@
     "request": "2",
     "request-promise": "4",
     "trek-engine": "0.5",
+    "trek-sessions": "0.1",
     "xo": "0.17"
   },
   "ava": {
