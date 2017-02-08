@@ -31,6 +31,7 @@
     "nyc": "10",
     "request": "2",
     "request-promise": "4",
+    "trek-body-parser": "0.1.4",
     "trek-engine": "0.5",
     "trek-sessions": "0.1",
     "xo": "0.17"
