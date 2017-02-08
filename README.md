@@ -24,7 +24,7 @@ async function start () {
   app.use(csrf())
 
   app.use(ctx => {
-    ctx.res.body = ctx.csrf
+    ctx.res.body = ctx.store.get('csrf')
   })
 
   app.on('error', (err, ctx) => {
