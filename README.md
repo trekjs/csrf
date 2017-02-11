@@ -16,10 +16,16 @@ $ npm install trek-csrf --save
 'use strict'
 
 const Engine = require('trek-engine')
+const sessions = require('trek-sessions')
+const bodyParser = require('trek-body-parser')
 const csrf = require('..')
 
 async function start () {
   const app = new Engine()
+
+  app.use(sessions())
+
+  app.use(bodyParser())
 
   app.use(csrf())
 
