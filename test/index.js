@@ -56,7 +56,6 @@ test('should get secret and token', async t => {
   t.is(res.statusCode, 200)
 })
 
-/*
 test('should get token from form', async t => {
   const app = new Engine()
 
@@ -115,6 +114,7 @@ test('should get token from form', async t => {
   t.is(res2.statusCode, 200)
 })
 
+/*
 test('should return 403 when missing token', async t => {
   const app = new Engine()
 
