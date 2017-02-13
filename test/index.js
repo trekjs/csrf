@@ -114,7 +114,6 @@ test('should get token from form', async t => {
   t.is(res2.statusCode, 200)
 })
 
-/*
 test('should return 403 when missing token', async t => {
   const app = new Engine()
 
@@ -172,6 +171,7 @@ test('should return 403 when missing token', async t => {
   t.is(res2.statusCode, 403)
 })
 
+/*
 test('should return 403 when invalid token', async t => {
   const app = new Engine()
 
