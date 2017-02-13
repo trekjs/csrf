@@ -171,7 +171,6 @@ test('should return 403 when missing token', async t => {
   t.is(res2.statusCode, 403)
 })
 
-/*
 test('should return 403 when invalid token', async t => {
   const app = new Engine()
 
@@ -227,5 +226,5 @@ test('should return 403 when invalid token', async t => {
   })
 
   t.is(res2.statusCode, 403)
+  t.is(res2.body, 'Invalid CSRF token')
 })
-*/
