@@ -31,6 +31,8 @@ test('should get secret and token', async t => {
     }
   }))
 
+  app.use(bodyParser())
+
   app.use(csrf())
 
   let obj = {}
