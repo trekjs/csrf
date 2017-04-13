@@ -1,6 +1,12 @@
+/*!
+ * trek-csrf
+ * Copyright(c) 2017 Fangdun Cai <cfddream@gmail.com> (https://fundon.me)
+ * MIT Licensed
+ */
+
 'use strict'
 
-module.exports = makeCSRF
+module.exports = csrfWithConfig
 
 const Tokens = require('csrf')
 
@@ -12,7 +18,7 @@ const defaults = {
   tokenOptions: undefined
 }
 
-function makeCSRF (options = {}) {
+function csrfWithConfig (options = {}) {
   options = Object.assign({}, defaults, options)
 
   const { key, tokenLookup, ignoreMethods, tokenOptions } = options
@@ -21,57 +27,45 @@ function makeCSRF (options = {}) {
 
   const [via, field] = tokenLookup.split(':')
 
-  let extractor = csrfTokenFromHeader(field)
+  let extractor = csrfTokenFromHeader
 
   switch (via) {
     case 'form':
-      extractor = csrfTokenFromForm(field)
+      extractor = csrfTokenFromForm
       break
     case 'query':
-      extractor = csrfTokenFromQuery(field)
+      extractor = csrfTokenFromQuery
       break
-    // no default
+    // No default
   }
 
   return csrf
 
-  async function csrf (ctx, next) {
-    if (!ctx.sessions.secret) ctx.sessions.secret = await tokens.secret()
+  async function csrf ({ req, res, sessions, store }, next) {
+    if (!sessions.secret) sessions.secret = await tokens.secret()
 
-    if (!ctx.store.has(key)) ctx.store.set(key, tokens.create(ctx.sessions.secret))
+    if (!store.has(key)) store.set(key, tokens.create(sessions.secret))
 
-    if (ignoreMethods.includes(ctx.req.method)) return next()
+    if (ignoreMethods.includes(req.method)) return next()
 
-    const token = extractor(ctx)
+    const token = extractor(req, field)
 
-    if (!token) return ctx.res.send(403, 'Invalid CSRF token')
+    if (!token) return res.send(403, 'Invalid CSRF token')
 
-    if (!tokens.verify(ctx.sessions.secret, token)) return ctx.res.send(403, 'Invalid CSRF token')
+    if (!tokens.verify(sessions.secret, token)) return res.send(403, 'Invalid CSRF token')
 
     return next()
   }
 }
 
-function csrfTokenFromHeader (header) {
-  return getToken
-
-  function getToken (ctx) {
-    return ctx.req.get(header)
-  }
+function csrfTokenFromHeader (req, header) {
+  return req.get(header)
 }
 
-function csrfTokenFromForm (name) {
-  return getToken
-
-  function getToken (ctx) {
-    return ctx.req.body && ctx.req.body[name]
-  }
+function csrfTokenFromForm (req, name) {
+  return req.body && req.body[name]
 }
 
-function csrfTokenFromQuery (name) {
-  return getToken
-
-  function getToken (ctx) {
-    return ctx.req.query[name]
-  }
+function csrfTokenFromQuery (req, name) {
+  return req.query[name]
 }

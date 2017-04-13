@@ -1,6 +1,6 @@
 {
   "name": "trek-csrf",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "CSRF Tokens Middleware for Trek.js",
   "repository": "trekjs/csrf",
   "author": {
@@ -17,31 +17,31 @@
   ],
   "main": "index.js",
   "engines": {
-    "node": ">=7.6"
+    "node": ">=7"
   },
   "scripts": {
     "lint": "xo",
     "test": "xo && nyc ava"
   },
   "dependencies": {
-    "csrf": "3.0.4"
+    "csrf": "^3.0.6"
   },
   "devDependencies": {
-    "ava": "0.18",
+    "ava": "0.19",
     "nyc": "10",
     "request": "2",
     "request-promise": "4",
-    "trek-body-parser": "0.1.4",
-    "trek-engine": "0.5",
-    "trek-sessions": "0.1",
-    "xo": "0.17"
+    "trek-body-parser": "0",
+    "trek-engine": "1",
+    "trek-sessions": "0",
+    "xo": "0.18"
   },
   "ava": {
-    "concurrency": 5,
-    "require": "babel-register"
+    "concurrency": 5
   },
   "nyc": {
     "reporter": [
+      "html",
       "lcov",
       "text"
     ]

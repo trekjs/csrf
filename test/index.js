@@ -38,14 +38,16 @@ test('should get secret and token', async t => {
   let obj = {}
 
   app.use(ctx => {
-    obj = ctx.res.body = {
+    obj = {
       secret: ctx.sessions.secret,
       token: ctx.store.get('csrf')
     }
+    ctx.res.body = obj
   })
 
   const url = await listen(app)
-  const res = await request({
+  const r = request.defaults({ jar: true })
+  const res = await r({
     url,
     json: true,
     simple: false,
@@ -54,6 +56,21 @@ test('should get secret and token', async t => {
 
   t.deepEqual(res.body, obj)
   t.is(res.statusCode, 200)
+
+  const res2 = await r({
+    url,
+    method: 'POST',
+    json: true,
+    simple: false,
+    resolveWithFullResponse: true,
+    headers: {
+      'X-CSRF-Token': obj.token
+    }
+  })
+
+  t.deepEqual(res2.body.secret, obj.secret)
+  t.deepEqual(res2.body.token, obj.token)
+  t.is(res2.statusCode, 200)
 })
 
 test('should get token from form', async t => {
@@ -80,10 +97,11 @@ test('should get token from form', async t => {
   let obj = {}
 
   app.use(ctx => {
-    obj = ctx.res.body = {
+    obj = {
       secret: ctx.sessions.secret,
       token: ctx.store.get('csrf')
     }
+    ctx.res.body = obj
   })
 
   const url = await listen(app)
@@ -107,6 +125,64 @@ test('should get token from form', async t => {
     formData: {
       csrfToken: obj.token
     }
+  })
+
+  t.deepEqual(res2.body.secret, obj.secret)
+  t.deepEqual(res2.body.token, obj.token)
+  t.is(res2.statusCode, 200)
+})
+
+test('should get token from query', async t => {
+  const app = new Engine()
+
+  app.config.set('cookie', {
+    keys: ['trek', 'engine']
+  })
+
+  app.use(sessions({
+    cookie: {
+      signed: false,
+      maxAge: 60 * 1000 // 1 minutes
+    }
+  }))
+
+  app.use(bodyParser())
+
+  app.use(csrf({
+    tokenLookup: 'query:csrf'
+  }))
+
+  let obj = {}
+
+  app.use(ctx => {
+    obj = {
+      secret: ctx.sessions.secret,
+      token: ctx.store.get('csrf')
+    }
+    ctx.res.body = obj
+  })
+
+  const url = await listen(app)
+  const r = request.defaults({ jar: true })
+  const res = await r({
+    url,
+    json: true,
+    simple: false,
+    resolveWithFullResponse: true
+  })
+
+  t.deepEqual(res.body, obj)
+  t.is(res.statusCode, 200)
+
+  const res2 = await r({
+    url,
+    qs: {
+      csrf: obj.token
+    },
+    method: 'POST',
+    json: true,
+    simple: false,
+    resolveWithFullResponse: true
   })
 
   t.deepEqual(res2.body.secret, obj.secret)
@@ -139,10 +215,11 @@ test('should return 403 when missing token', async t => {
   let obj = {}
 
   app.use(ctx => {
-    obj = ctx.res.body = {
+    obj = {
       secret: ctx.sessions.secret,
       token: ctx.store.get('csrf')
     }
+    ctx.res.body = obj
   })
 
   const url = await listen(app)
@@ -196,10 +273,11 @@ test('should return 403 when invalid token', async t => {
   let obj = {}
 
   app.use(ctx => {
-    obj = ctx.res.body = {
+    obj = {
       secret: ctx.sessions.secret,
       token: ctx.store.get('csrf')
     }
+    ctx.res.body = obj
   })
 
   const url = await listen(app)

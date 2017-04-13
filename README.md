@@ -18,7 +18,7 @@ $ npm install trek-csrf --save
 const Engine = require('trek-engine')
 const sessions = require('trek-sessions')
 const bodyParser = require('trek-body-parser')
-const csrf = require('..')
+const csrf = require('trek-csrf')
 
 async function start () {
   const app = new Engine()
@@ -40,12 +40,21 @@ async function start () {
   app.run(3000)
 }
 
-start().catch(err => console.log(err))
+start().catch(console.log)
 ```
 
 
 ## API
 
+```js
+csrfWithConfig({
+  key: 'csrf',
+  tokenLookup: 'header:X-CSRF-Token',
+  ignoreMethods: ['GET', 'HEAD', 'OPTIONS', 'TRACE'],
+  // https://github.com/pillarjs/csrf#new-tokensoptions
+  tokenOptions: undefined
+})
+```
 
 
 ## Badges
