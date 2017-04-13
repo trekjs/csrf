@@ -47,7 +47,7 @@ start().catch(console.log)
 ## API
 
 ```js
-csrfWithConfig({
+csrf({
   key: 'csrf',
   tokenLookup: 'header:X-CSRF-Token',
   ignoreMethods: ['GET', 'HEAD', 'OPTIONS', 'TRACE'],
