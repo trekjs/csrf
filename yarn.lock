@@ -3783,8 +3783,8 @@ trek-middleware@^1.1.0:
   resolved "https://registry.yarnpkg.com/trek-middleware/-/trek-middleware-1.1.0.tgz#ed481d37670e438b7ca80bed9637d7c232805eb0"
 
 trek-sessions@0:
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/trek-sessions/-/trek-sessions-0.1.5.tgz#00503ef53e48abfc010be629a64f75dfc6ebb133"
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/trek-sessions/-/trek-sessions-0.1.6.tgz#7a5a16fec1ae0ff4cffe1a7f90a2ba809bed32e3"
   dependencies:
     crc "^3.4.4"
     ruid "^1.0.0"
