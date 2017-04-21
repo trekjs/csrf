@@ -47,7 +47,7 @@ test('should get secret and token', async t => {
     ctx.res.body = obj
   })
 
-  const url = await listen(app)
+  const url = await listen(app) + '/1'
   const r = request.defaults({ jar: true })
   const res = await r({
     url,
@@ -108,7 +108,7 @@ test('should get token from form', async t => {
     ctx.res.body = obj
   })
 
-  const url = await listen(app)
+  const url = await listen(app) + '/2'
   const r = request.defaults({ jar: true })
   const res = await r({
     url,
@@ -168,7 +168,7 @@ test('should get token from query', async t => {
     ctx.res.body = obj
   })
 
-  const url = await listen(app)
+  const url = await listen(app) + '/3'
   const r = request.defaults({ jar: true })
   const res = await r({
     url,
@@ -230,7 +230,7 @@ test('should return 403 when missing token', async t => {
     ctx.res.body = obj
   })
 
-  const url = await listen(app)
+  const url = await listen(app) + '/4'
   const r = request.defaults({ jar: true })
   const res = await r({
     url,
@@ -290,7 +290,7 @@ test('should return 403 when invalid token', async t => {
     ctx.res.body = obj
   })
 
-  const url = await listen(app)
+  const url = await listen(app) + '/5'
   const r = request.defaults({ jar: true })
   const res = await r({
     url,
