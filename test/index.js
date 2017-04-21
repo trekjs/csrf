@@ -20,6 +20,8 @@ const listen = app => {
 test('should get secret and token', async t => {
   const app = new Engine()
 
+  app.on('error', console.log)
+
   app.config.set('cookie', {
     keys: ['trek', 'engine']
   })
@@ -75,6 +77,8 @@ test('should get secret and token', async t => {
 
 test('should get token from form', async t => {
   const app = new Engine()
+
+  app.on('error', console.log)
 
   app.config.set('cookie', {
     keys: ['trek', 'engine']
@@ -135,6 +139,8 @@ test('should get token from form', async t => {
 test('should get token from query', async t => {
   const app = new Engine()
 
+  app.on('error', console.log)
+
   app.config.set('cookie', {
     keys: ['trek', 'engine']
   })
@@ -193,6 +199,8 @@ test('should get token from query', async t => {
 test('should return 403 when missing token', async t => {
   const app = new Engine()
 
+  app.on('error', console.log)
+
   app.config.set('cookie', {
     keys: ['trek', 'engine']
   })
@@ -250,6 +258,8 @@ test('should return 403 when missing token', async t => {
 
 test('should return 403 when invalid token', async t => {
   const app = new Engine()
+
+  app.on('error', console.log)
 
   app.config.set('cookie', {
     keys: ['trek', 'engine']
